@@ -1,12 +1,10 @@
 const mongoose = require('mongoose')
-const User = require('./User')
 
 const TransactionSchema = new mongoose.Schema({
-  value: Number,
-  installments: Number,
+  value: Number,  
   dueDate: [Date],
-  payer: mongoose.Schema.Types.ObjectId,
-  receiver: mongoose.Schema.Types.ObjectId
+  payer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  receiver: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
 module.exports = mongoose.model('Transaction', TransactionSchema)
