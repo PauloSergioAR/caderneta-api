@@ -9,6 +9,7 @@
     "mongoose": "^5.8.9"
   },
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
   "devDependencies": {
