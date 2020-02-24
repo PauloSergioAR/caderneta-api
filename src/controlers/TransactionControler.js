@@ -1,8 +1,10 @@
 const Transaction = require("../models/Transaction")
 const User = require("../models/User")
 
-async function index(req, res){  
-  const { email } = req.params  
+async function index(req, res){ 
+  console.log("Reached Transaction index route with email: ")
+  const { email } = req.params
+  console.log("Reached Transaction index route with email: " + email)
 
   await User.findOne({email}, async (err, doc) => {
     if(err){
@@ -34,8 +36,6 @@ async function store(req, res){
   let payer
   let receiver
 
-  let error
-
   dueDate = dueDate.map((date) => new Date(date))
   value = parseFloat(value)
 
@@ -63,18 +63,19 @@ async function store(req, res){
     payer = payer._id ? payer._id : payer
     receiver = receiver._id ? receiver._id : receiver
 
-    let transaction = Transaction.create({
+    Transaction.create({
       value: value,
       dueDate: dueDate,
       payer: payer,
       receiver: receiver
+    }).then(() => {
+      Transaction.findOne({"payer": payer}).populate('payer').exec((err, doc) => {
+        if(err){
+          return res.json(err)
+        }
+        return res.json(doc)
+      })
     })
-
-    Transaction.findOne({"payer": payer}).populate('payer').exec((err, doc) => {
-      return res.json(doc)
-    })
-  
-    
   }
 }
 
