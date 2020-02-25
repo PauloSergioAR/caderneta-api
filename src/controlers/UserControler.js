@@ -7,11 +7,22 @@ module.exports = {
     return res.json(data)
   },
   
-  async show(req, res){
-    console.log("Show route reached")    
+  async getUserById(req, res){
     const { tag } = req.params 
-    console.log(tag)   
     await User.findOne({"tag": tag}, (err, doc) =>{
+      if(err){
+        return res.json({message: err})
+      } else if(!doc){
+        return res.json({message: "User not found"})
+      } else {
+        return res.json(doc)
+      }      
+    })    
+  },
+
+  getUserByFid(req, res){
+    const { id } = req.params 
+    await User.findOne({"facebook_id": id}, (err, doc) =>{
       if(err){
         return res.json({message: err})
       } else if(!doc){
