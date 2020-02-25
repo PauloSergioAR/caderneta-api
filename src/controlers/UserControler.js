@@ -9,8 +9,8 @@ module.exports = {
   
   async show(req, res){
     console.log("Show route reached")    
-    const { email } = req.params    
-    await User.findOne({"email": email}, (err, doc) =>{
+    const { tag } = req.params    
+    await User.findOne({"tag": tag}, (err, doc) =>{
       if(err){
         return res.json({message: err})
       } else if(!doc){
@@ -23,13 +23,13 @@ module.exports = {
   
   async store(req, res){
     console.log("Store route reached")
-    const { email, name, avatar_url } = req.body
+    const { tag, name, avatar_url } = req.body
   
-    let user = await User.findOne({ email })
+    let user = await User.findOne({ tag })
   
     if(!user){
       user = await User.create({
-        email,
+        tag,
         name,
         avatar_url
       })
@@ -40,34 +40,23 @@ module.exports = {
   
   async update(req, res){
     console.log("Update route reached")
-    const {email, new_email, name, avatar_url} = req.body
+    const {tag, name, avatar_url} = req.body
   
     let user
-  
-    if(new_email){
-      user = await User.findOne({new_email})
-    }
       
     if(!user){
-      let updateObject = {
-        ...new_email && {email: new_email},
+      let updateObject = {        
         ...name && {name: name},
         ...avatar_url && {avatar_url: avatar_url}
       }
   
-      await User.findOneAndUpdate({email}, updateObject)
+      await User.findOneAndUpdate({tag}, updateObject)
   
       let updatedUser
   
-      if(new_email){
-        updatedUser = await User.findOne({new_email})
-      } else {
-        updatedUser = await User.findOne({email})
-      }
-      
+      updatedUser = await User.findOne({tag})
+          
       return res.json(updatedUser)
     }
-  
-    return res.json({message: "That email is already in use"})
   }
 }

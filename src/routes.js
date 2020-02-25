@@ -9,6 +9,7 @@ routes.post('/users', UserControler.store)
 routes.put('/users', UserControler.update)
 
 routes.get('/transactions/:email', TransactionControler.index)
-routes.post('/transactions', TransactionControler.store)
+routes.post('/transactions/singleaccount', TransactionControler.storeTransactionForSingleAccount)
+routes.post('/transactions/bothaccount', TransactionControler.storeTransactionForBothAccounts)
 
 module.exports = routes
