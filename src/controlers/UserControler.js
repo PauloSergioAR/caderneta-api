@@ -9,7 +9,8 @@ module.exports = {
   
   async show(req, res){
     console.log("Show route reached")    
-    const { tag } = req.params    
+    const { tag } = req.params 
+    console.log(tag)   
     await User.findOne({"tag": tag}, (err, doc) =>{
       if(err){
         return res.json({message: err})
