@@ -23,12 +23,13 @@ module.exports = {
   
   async store(req, res){
     console.log("Store route reached")
-    const { tag, name, avatar_url } = req.body
+    const { facebook_id, tag, name, avatar_url } = req.body
   
     let user = await User.findOne({ tag })
   
     if(!user){
       user = await User.create({
+        facebook_id,
         tag,
         name,
         avatar_url
