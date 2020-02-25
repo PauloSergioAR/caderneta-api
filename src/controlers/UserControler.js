@@ -20,7 +20,7 @@ module.exports = {
     })    
   },
 
-  getUserByFid(req, res){
+  async getUserByFid(req, res){
     const { id } = req.params 
     await User.findOne({"facebook_id": id}, (err, doc) =>{
       if(err){
