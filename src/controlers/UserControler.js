@@ -36,6 +36,7 @@ module.exports = {
   async store(req, res){
     console.log("Store route reached")
     const { facebook_id, tag, name, avatar_url } = req.body
+    console.log(facebook_id)
   
     let user = await User.findOne({ tag })
   
@@ -47,7 +48,7 @@ module.exports = {
         avatar_url
       })
     }
-  
+    console.log(user)
     return res.json(user)
   },
   
